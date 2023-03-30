@@ -50,7 +50,10 @@ function showHideSection(button) {
   console.log(button.className)
   if (button.closest('.quiz')) {
     let question = button.closest('.quiz')
-    console.log(question.id)
+    if (button.closest('.true')) {
+      score++
+    }
+    console.log(score)
     // let nextQuestion = document.getElementById(question.id).nextSibling
     let nextQuestion = question.nextSibling.nextSibling.id
     console.log(nextQuestion)
@@ -60,10 +63,10 @@ function showHideSection(button) {
     // nextQuestion.classList.add("show")
   } else if (button.closest('.start')) {
     //start timer
-    
+
     let header = button.closest('.start')
     header.classList.add('hide')
-    document.getElementById("question-1").classList.remove('hide')
+    document.getElementById('question-1').classList.remove('hide')
   }
 }
 
