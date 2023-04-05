@@ -15,8 +15,10 @@ main {
 
 header {
   display: block;
-  text-align: center;
-  margin: 0 auto;
+  text-align: c;
+  margin: 0;
+  flex-wrap: wrap;
+  background: aqua;
 }
 
 section {
@@ -31,11 +33,32 @@ h1 {
 
 button {
   display: block;
-  width: 200px;
+  width: 100px;
+  height: 50px;
+  
 }
 
 ul {
   list-style: none;
+}
+
+.top-bar {
+  width: 100%;
+  display:block;
+}
+
+.left {
+  text-align: left;
+  width: 300px;
+  display: block;
+  float: left;
+}
+
+.right {
+  text-align: right;
+  width: 200px;
+  float: right;
+  display: block;
 }
 
 .show {
@@ -45,3 +68,4 @@ ul {
 .hide {
   display: none;
 }
+

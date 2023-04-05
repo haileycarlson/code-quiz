@@ -5,8 +5,8 @@ const button = document.querySelector('input')
 let highschore = 0
 let score = 0
 let isWin
-let timer
-let timerCount
+let timer = 60
+let timerCount = 60
 
 let questions = [
   'Inside which HTML element do we put the JavaScript?',
@@ -40,6 +40,7 @@ function handleClick(event) {
     if (element.nodeName === 'BUTTON') {
       // The user clicked on a <button> or clicked on an element inside a <button>
       showHideSection(element)
+      startTimer()
       break
     }
   }
@@ -52,6 +53,9 @@ function showHideSection(button) {
     let question = button.closest('.quiz')
     if (button.closest('.true')) {
       score++
+      document.getElementById('score').textContent = score
+    } else {
+      timerCount = timerCount - 10
     }
     console.log(score)
     // let nextQuestion = document.getElementById(question.id).nextSibling
@@ -59,6 +63,11 @@ function showHideSection(button) {
     console.log(nextQuestion)
     // question.classList.remove("show")
     question.classList.add('hide')
+    if (nextQuestion) {
+      document.getElementById(nextQuestion).classList.remove('hide')
+    } else {
+      document.getElementById(nextQuestion).classList.remove('hide')
+    }
     document.getElementById(nextQuestion).classList.remove('hide')
     // nextQuestion.classList.add("show")
   } else if (button.closest('.start')) {
@@ -71,36 +80,32 @@ function showHideSection(button) {
 }
 
 function startGame() {
-  score = o
+  score = 0
   isWin = false
   timerCount = 60
   // Prevents start button from being clicked when round is in progress
   startButton.disabled = true
   startTimer()
+  // Add Statement to take away -10 to the timer
 }
 
-function winGame() {}
+function winGame() {} // call to activate the highscore window to show up}
 
-function loseGame() {}
+function loseGame() {
+  // Clears interval
+  clearInterval(timer)
+  document.getElementById().classList.remove('hide')
+} // reset the game
 
 function startTimer() {
   // Sets timer
   timer = setInterval(function () {
+    console.log(timerCount)
     timerCount--
     timerElement.textContent = timerCount
-    if (timerCount >= 0) {
-      // Tests if win condition is met
-      if (isWin && timerCount > 0) {
-        // Clears interval and stops timer
-        clearInterval(timer)
-        winGame()
-      }
-    }
-    // Tests if time has run out
-    if (timerCount === 0) {
-      // Clears interval
-      clearInterval(timer)
+
+    if (timerCount <= 0) {
       loseGame()
     }
-  }, 6000)
+  }, 1000)
 }
