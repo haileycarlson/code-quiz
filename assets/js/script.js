@@ -1,12 +1,11 @@
 let timerElement = document.querySelector('.timer')
 let startButton = document.querySelector('.start-button')
-const button = document.querySelector('input')
 
 let highschore = 0
 let score = 0
 let isWin
-let timer = 60
-let timerCount = 60
+let timer
+let timerCount = 120
 
 let questions = [
   'Inside which HTML element do we put the JavaScript?',
@@ -34,48 +33,55 @@ function handleClick(event) {
   event.target = event.target || event.srcElement
 
   let element = event.target
-
-  // Climb up the document tree from the target of the event
-  while (element) {
-    if (element.nodeName === 'BUTTON') {
-      // The user clicked on a <button> or clicked on an element inside a <button>
+  console.log(element)
+  if (element.nodeName === 'BUTTON') {
       showHideSection(element)
-      startTimer()
-      break
-    }
-  }
+    } 
 }
 
 function showHideSection(button) {
-  // do something with button
-  console.log(button.className)
-  if (button.closest('.quiz')) {
+  if (button.closest('.win')) {
+    document.getElementById('high-score').classList.add('hide')
+    document.getElementsByClassName('start')[0].classList.remove('hide')
+    document.getElementsByClassName('start')[1].classList.remove('hide')
+  } else if (button.closest('.quiz')) {
+    // If a button was clicked in a quiz section
     let question = button.closest('.quiz')
+    // Respond to right or wrong answer
+    // If the right answer is clicked
     if (button.closest('.true')) {
       score++
-      document.getElementById('score').textContent = score
     } else {
-      timerCount = timerCount - 10
+      // If a wrong answer is clicked
+      timerCount = timerCount - 5
     }
-    console.log(score)
-    // let nextQuestion = document.getElementById(question.id).nextSibling
+    // Display the next question
     let nextQuestion = question.nextSibling.nextSibling.id
-    console.log(nextQuestion)
-    // question.classList.remove("show")
     question.classList.add('hide')
     if (nextQuestion) {
+      // If there is a next question
       document.getElementById(nextQuestion).classList.remove('hide')
     } else {
+      // If there isn't a next question
       document.getElementById(nextQuestion).classList.remove('hide')
     }
     document.getElementById(nextQuestion).classList.remove('hide')
-    // nextQuestion.classList.add("show")
+    // If this is the last question
+    if (question.id === "question-11") {
+      winGame(score)
+    }
+    // If the button clicked was the start button
   } else if (button.closest('.start')) {
-    //start timer
-
+    startGame()
     let header = button.closest('.start')
     header.classList.add('hide')
     document.getElementById('question-1').classList.remove('hide')
+  } else if (button.closest('.result')) {
+    document.getElementById('quiz-result').classList.add('hide')
+    console.log("this is a test")
+    document.getElementById('high-score').classList.remove('hide') 
+    let storedScore = localStorage.getItem("score")
+    document.getElementById('high-win').textContent = storedScore
   }
 }
 
@@ -83,28 +89,49 @@ function startGame() {
   score = 0
   isWin = false
   timerCount = 60
-  // Prevents start button from being clicked when round is in progress
-  startButton.disabled = true
   startTimer()
-  // Add Statement to take away -10 to the timer
 }
 
-function winGame() {} // call to activate the highscore window to show up}
+function winGame(score) {
+  clearInterval(timer)
+  document.getElementById('quiz-result').classList.remove('hide')
+  let timerDisplay = timerCount
+  if (score > 0) {
+    document.getElementById('score').textContent = timerDisplay
+  } else {
+    document.getElementById('score').textContent = 0
+    loseGame()
+  }
+  timerElement.textContent = timerCount
+  let scoreCheck =localStorage.getItem("score")
+  if ( scoreCheck < timerDisplay){
+    localStorage.setItem("score", timerDisplay)
+  }
+} 
 
 function loseGame() {
+  console.log("this is another test")
   // Clears interval
   clearInterval(timer)
-  document.getElementById().classList.remove('hide')
+  timer = null
+  let quizDivs = document.getElementsByClassName('quiz')
+  for (div of quizDivs) {
+    div.classList.add('hide')
+  }
+  document.getElementsByClassName('start')[0].classList.remove('hide')
 } // reset the game
 
 function startTimer() {
   // Sets timer
+  console.log("start timer")
   timer = setInterval(function () {
+    console.log(timer)
     console.log(timerCount)
     timerCount--
     timerElement.textContent = timerCount
 
     if (timerCount <= 0) {
+      timerCount = 0
       loseGame()
     }
   }, 1000)

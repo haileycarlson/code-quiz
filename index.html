@@ -11,7 +11,7 @@
       <div class="top-bar">
         <p>
           <span class="highscores left">View Highscores</span>
-          <span class="timer right"></span>
+          <span class="timer right">60</span>
         </p>
       </div>
       <div class="start">
@@ -115,15 +115,16 @@
     <li><button class ="answer true">if (i != 5)</button></li>
   </ul>       
 </section>
-<section id="quiz-result" class="quiz hide">
+<section id="quiz-result" class="result hide">
   <h2 class="question">All done!</h2>
   <p>Your score is: <span id="score"></span></p>
-  <form>Enter your initials: <input type="text" class="initials">
-  <button class="submit">Submit</button></form>
+  <h3>Enter your initials:<input type="text" id="initials" name="initials"></h3>
+  <button class="submit">Submit</button>
 </section>
-<section id="high-score" class="quiz hide">
+<section id="high-score" class="win hide">
   <h2 class="question">High scores</h2>
-  <p id="high-score"></p>
+  <p id="high-win"></p>
+  <button class="start-over">Start Over</button>
 </section>
       <!-- checkbox for answers -->
     </main>
